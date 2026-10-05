@@ -1,0 +1,5 @@
+# 빌드 시 생성되는 파일
+site/data.json
+site/portfolio.json
+site/settings.json
+__pycache__/

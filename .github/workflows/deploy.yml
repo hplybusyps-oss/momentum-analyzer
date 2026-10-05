@@ -1,0 +1,69 @@
+name: 데이터 수집 및 배포
+
+on:
+  schedule:
+    - cron: '10 7 * * 1-5'    # 16:10 KST — 한국 장 마감 후
+    - cron: '40 21 * * 1-5'   # 06:40 KST 다음날 — 미국 장 마감 후
+  push:
+    branches: [main]
+    paths:
+      - 'portfolio.json'
+      - 'settings.json'
+      - 'site/**'
+      - 'scripts/**'
+      - '.github/workflows/deploy.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write     # 60일 비활성 시 예약 실행 중지 방지용 keepalive 커밋
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: 데이터 수집
+        env:
+          PAGES_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
+        run: python scripts/build_data.py
+
+      - name: 설정 파일 복사
+        run: cp portfolio.json settings.json site/
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - id: deploy
+        uses: actions/deploy-pages@v4
+
+      # GitHub 은 60일간 커밋이 없는 저장소의 예약 실행을 멈춘다 → 50일 넘으면 빈 커밋
+      - name: keepalive
+        if: github.event_name == 'schedule'
+        run: |
+          last=$(git log -1 --format=%ct)
+          if [ $(( $(date +%s) - last )) -gt $(( 50 * 86400 )) ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit --allow-empty -m "keepalive"
+            git push
+          fi

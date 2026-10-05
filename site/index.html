@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>모멘텀 분석기</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📈</text></svg>">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js" defer></script>
+  <script src="indicators.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="wrap">
+    <h1>📈 모멘텀 분석기 <span class="meta" id="meta"></span></h1>
+    <div class="tabs main" id="mainTabs">
+      <button data-main="analysis" class="on">분석표</button>
+      <button data-main="settings">⚙ 설정</button>
+    </div>
+    <div class="panel" id="analysis"></div>
+    <div class="panel" id="settings" hidden></div>
+  </div>
+  <div id="tip"></div>
+</body>
+</html>

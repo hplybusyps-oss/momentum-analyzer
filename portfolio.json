@@ -1,0 +1,31 @@
+{
+  "watchlist": [
+    "SPY"
+  ],
+  "all_tickers": [
+    "000660",
+    "0186L0",
+    "069500",
+    "178320",
+    "IREN",
+    "NVDA",
+    "SPY",
+    "TSLA"
+  ],
+  "categories": {
+    "관심종목": [
+      "SPY"
+    ],
+    "AI": [
+      "000660",
+      "0186L0",
+      "069500"
+    ],
+    "B": [
+      "IREN",
+      "NVDA"
+    ]
+  },
+  "group_recipes": {},
+  "updated_at": 0
+}

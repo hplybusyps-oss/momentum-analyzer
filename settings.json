@@ -1,0 +1,113 @@
+{
+  "Momentum": {
+    "period_1m": 1,
+    "period_3m": 3,
+    "period_6m": 6,
+    "period_12m": 12,
+    "weight_1m": 0.4,
+    "weight_3m": 0.3,
+    "weight_6m": 0.2,
+    "weight_12m": 0.1
+  },
+  "Volatility": {
+    "vol_period": 3,
+    "filter_short": 1,
+    "filter_long": 12,
+    "filter_sigma": 1.5
+  },
+  "RSM": {
+    "period": 12,
+    "benchmark_kr": "069500",
+    "benchmark_us": "SPY"
+  },
+  "Technical": {
+    "rsi_period": 14,
+    "rel_vol_period": 1,
+    "slope_period": 3,
+    "high_period": 12,
+    "macd_fast": 12,
+    "macd_slow": 26,
+    "macd_signal": 9,
+    "bb_period": 20,
+    "bb_std": 2.0
+  },
+  "recipes": {
+    "active": 0,
+    "list": [
+      {
+        "name": "순수 모멘텀",
+        "items": [
+          [
+            "avg_momentum",
+            0.4,
+            "+"
+          ],
+          [
+            "wgt_momentum",
+            0.3,
+            "+"
+          ],
+          [
+            "rsm",
+            0.2,
+            "+"
+          ],
+          [
+            "slope",
+            0.1,
+            "+"
+          ]
+        ],
+        "filters": []
+      },
+      {
+        "name": "퀄리티 모멘텀",
+        "items": [
+          [
+            "avg_momentum",
+            0.3,
+            "+"
+          ],
+          [
+            "roe",
+            0.2,
+            "+"
+          ],
+          [
+            "per",
+            0.2,
+            "-"
+          ],
+          [
+            "r_squared",
+            0.15,
+            "+"
+          ],
+          [
+            "volatility",
+            0.15,
+            "-"
+          ]
+        ],
+        "filters": []
+      },
+      {
+        "name": "새 레시피 3",
+        "items": [
+          [
+            "avg_momentum",
+            0.5,
+            "+"
+          ],
+          [
+            "rsm",
+            0.5,
+            "+"
+          ]
+        ],
+        "filters": []
+      }
+    ]
+  },
+  "updated_at": 0
+}
