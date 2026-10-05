@@ -32,7 +32,7 @@
     "bb_std": 2
   },
   "recipes": {
-    "active": 0,
+    "active": 1,
     "list": [
       {
         "name": "A-Core",
@@ -79,5 +79,5 @@
       }
     ]
   },
-  "updated_at": 1791166470232
+  "updated_at": 1791166472005
 }
