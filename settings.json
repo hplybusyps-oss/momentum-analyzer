@@ -29,7 +29,7 @@
     "macd_slow": 26,
     "macd_signal": 9,
     "bb_period": 20,
-    "bb_std": 2.0
+    "bb_std": 2
   },
   "recipes": {
     "active": 0,
@@ -90,24 +90,8 @@
           ]
         ],
         "filters": []
-      },
-      {
-        "name": "새 레시피 3",
-        "items": [
-          [
-            "avg_momentum",
-            0.5,
-            "+"
-          ],
-          [
-            "rsm",
-            0.5,
-            "+"
-          ]
-        ],
-        "filters": []
       }
     ]
   },
-  "updated_at": 0
+  "updated_at": 1791166323763
 }
