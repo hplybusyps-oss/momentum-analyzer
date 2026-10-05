@@ -99,6 +99,8 @@
       "421320"
     ]
   },
-  "group_recipes": {},
-  "updated_at": 1791166722325
+  "group_recipes": {
+    "A-Core": 0
+  },
+  "updated_at": 1791166785399
 }
