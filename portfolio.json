@@ -1,6 +1,7 @@
 {
   "watchlist": [
-    "SPY"
+    "SPY",
+    "TIP"
   ],
   "all_tickers": [
     "091230",
@@ -55,7 +56,8 @@
   ],
   "categories": {
     "관심종목": [
-      "SPY"
+      "SPY",
+      "TIP"
     ],
     "AI": [
       "000660",
@@ -68,5 +70,5 @@
     ]
   },
   "group_recipes": {},
-  "updated_at": 1791165990083
+  "updated_at": 1791166247720
 }
