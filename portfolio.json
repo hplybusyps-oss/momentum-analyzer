@@ -1,6 +1,5 @@
 {
   "watchlist": [
-    "SPY",
     "TIP"
   ],
   "all_tickers": [
@@ -56,7 +55,6 @@
   ],
   "categories": {
     "관심종목": [
-      "SPY",
       "TIP"
     ],
     "A-Core": [
@@ -102,5 +100,5 @@
   "group_recipes": {
     "A-Core": 0
   },
-  "updated_at": 1791166813985
+  "updated_at": 1791166869195
 }
