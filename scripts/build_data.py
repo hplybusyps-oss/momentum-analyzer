@@ -6,6 +6,7 @@
 - 미국(영문):               yfinance auto_adjust=True         (수정 주가)
 수집에 실패한 종목은 직전 배포본(data.json)의 데이터를 그대로 유지한다.
 """
+import html
 import json
 import os
 import re
@@ -37,7 +38,7 @@ def fetch_kr_naver(ticker: str):
     r.raise_for_status()
     text = r.content.decode('euc-kr', errors='replace')
     m    = re.search(r'<chartdata[^>]*\bname="([^"]*)"', text)
-    name = m.group(1).strip() if m else None
+    name = html.unescape(m.group(1)).strip() if m else None   # &amp; → & 등 XML 엔티티 복원
     recs = []
     for row in re.findall(r'<item data="([^"]+)"', text):
         p = row.split('|')
