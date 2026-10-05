@@ -35,32 +35,23 @@
     "active": 0,
     "list": [
       {
-        "name": "순수 모멘텀",
+        "name": "A-Core",
         "items": [
           [
-            "avg_momentum",
-            0.4,
-            "+"
-          ],
-          [
-            "wgt_momentum",
-            0.3,
-            "+"
-          ],
-          [
-            "rsm",
-            0.2,
-            "+"
-          ],
-          [
-            "slope",
-            0.1,
+            "formula:평균 모멘텀 / 변동성",
+            1,
             "+"
           ]
         ],
-        "filters": []
+        "filters": [
+          [
+            "abs_mom",
+            "<",
+            0
+          ]
+        ]
       }
     ]
   },
-  "updated_at": 1791166326927
+  "updated_at": 1791166392885
 }
