@@ -17,7 +17,7 @@
   },
   "RSM": {
     "period": 12,
-    "benchmark_kr": "069500",
+    "benchmark_kr": "360750",
     "benchmark_us": "SPY"
   },
   "Technical": {
@@ -105,5 +105,5 @@
       }
     ]
   },
-  "updated_at": 1791166516634
+  "updated_at": 1791170043513
 }
