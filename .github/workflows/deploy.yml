@@ -45,7 +45,9 @@ jobs:
         run: python scripts/build_data.py
 
       - name: 설정 파일 복사
-        run: cp portfolio.json settings.json site/
+        run: |
+          cp portfolio.json settings.json site/
+          sed -i "s/__BUILD_ID__/${GITHUB_SHA::8}-${GITHUB_RUN_ID}/g" site/index.html
 
       - uses: actions/configure-pages@v5
 
