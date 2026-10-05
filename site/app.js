@@ -141,7 +141,7 @@ function persist(kind, what) {
   obj.updated_at = Date.now();
   lsSet(LS[kind], obj);
   if (!getToken()) {
-    setStatus(`${what} — 이 브라우저에만 저장됨 (설정 → GitHub 연결 시 모든 기기에 반영)`, 'warn');
+    setStatus(`${what} — 이 브라우저에만 저장됨`, 'warn');
     return Promise.resolve(false);
   }
   const text = JSON.stringify(obj, null, 2) + '\n';
@@ -159,7 +159,7 @@ function persist(kind, what) {
 }
 
 async function triggerRefresh() {
-  if (!getToken()) { setStatus('데이터 갱신은 GitHub 연결이 필요합니다 (설정 → GitHub 연결)', 'warn'); return; }
+  if (!getToken()) { setStatus('데이터 갱신은 이 브라우저에서 사용할 수 없습니다', 'warn'); return; }
   try {
     await gh(`/actions/workflows/${WORKFLOW}/dispatches`, { method: 'POST', body: JSON.stringify({ ref: BRANCH }) });
     setStatus('데이터 갱신 시작 — 약 2~3분 뒤 페이지를 새로고침하세요');
@@ -419,7 +419,7 @@ function renderNotices() {
   if (waiting.length) {
     out.push(`<div class="notice info">데이터 수집 대기: <b>${esc(waiting.join(', '))}</b> — ${getToken()
       ? 'GitHub 에 저장되면 자동 수집됩니다 (2~3분 뒤 새로고침)'
-      : '새 종목 데이터 수집은 <b>설정 → GitHub 연결</b>이 필요합니다'}</div>`);
+      : '이 브라우저에서는 데이터 수집을 요청할 수 없습니다'}</div>`);
   }
   if (failed.length) out.push(`<div class="notice">수집 실패 (티커 확인 필요): <b>${esc(failed.join(', '))}</b></div>`);
   if ((S.data.stale || []).length) out.push(`<div class="notice">이번 갱신 실패로 이전 데이터 표시 중: ${esc(S.data.stale.join(', '))}</div>`);
@@ -861,8 +861,11 @@ const SETTING_FORMS = [
   { title: 'GitHub 연결' },
 ];
 
+const showGithubTab = () => location.hash === '#gh';
+
 function renderSettings() {
-  const tabs = SETTING_FORMS.map((f, i) => `<button data-st="${i}" class="${i === S.ui.setTab ? 'on' : ''}">${f.title}</button>`).join('');
+  if (!showGithubTab() && SETTING_FORMS[S.ui.setTab].title === 'GitHub 연결') S.ui.setTab = 0;
+  const tabs = SETTING_FORMS.map((f, i) => (f.title === 'GitHub 연결' && !showGithubTab()) ? '' : `<button data-st="${i}" class="${i === S.ui.setTab ? 'on' : ''}">${f.title}</button>`).join('');
   $('#settings').innerHTML = `<div class="tabs" id="setTabs">${tabs}</div><div class="panel" id="setBody"></div>`;
   $('#setTabs').onclick = e => {
     const b = e.target.closest('[data-st]');
@@ -900,7 +903,7 @@ function renderForm(f) {
     persist('settings', `${f.title} 설정 저장`).then(ok => {
       $('#formMsg').textContent = ok ? '저장됨 ✓ (GitHub 반영)' : '저장됨 ✓ (이 브라우저)';
     });
-    if (benchChanged && !getToken()) $('#formMsg').textContent = '벤치마크 데이터 수집에는 GitHub 연결이 필요합니다';
+    if (benchChanged && !getToken()) $('#formMsg').textContent = '이 브라우저에만 저장됨';
     rerenderAll();
     renderForm(f);
   };
@@ -1059,28 +1062,15 @@ function renderGithub() {
   const has = !!getToken();
   $('#setBody').innerHTML = `
     <h3>GitHub 연결 ${has ? '<span class="ok">● 연결됨</span>' : ''}</h3>
-    <p class="caption" style="max-width:760px">연결하면 종목·그룹·설정 변경이 GitHub 저장소에 저장되어 <b>모든 기기에서 같은 내용</b>이 보이고,
-      새로 추가한 종목의 데이터도 자동으로 수집됩니다. 연결하지 않으면 보기와 계산은 그대로 되지만 변경 사항은 이 브라우저에만 남습니다.</p>
     <div class="form">
-      <label class="full">GitHub 토큰 (이 브라우저에만 저장, 다른 곳으로 전송되지 않음 — api.github.com 제외)
+      <label class="full">GitHub 토큰
         <input type="password" id="tokIn" placeholder="${has ? '저장됨 — 바꾸려면 새 토큰 입력' : 'github_pat_...'}" autocomplete="off"></label>
     </div>
     <div class="row-actions">
       <button class="b primary" id="tokSave">저장 및 확인</button>
       ${has ? '<button class="b danger" id="tokDel">연결 해제</button>' : ''}
       <span class="caption" id="tokMsg"></span>
-    </div>
-    <details class="box" ${has ? '' : 'open'}><summary>토큰 만드는 법 (1회, 약 2분)</summary>
-      <ol class="steps">
-        <li>GitHub 로그인 → 오른쪽 위 프로필 → <b>Settings</b> → 왼쪽 맨 아래 <b>Developer settings</b></li>
-        <li><b>Personal access tokens → Fine-grained tokens → Generate new token</b></li>
-        <li>Token name: <code>momentum-analyzer</code>, Expiration: 원하는 기간 (최대 1년)</li>
-        <li>Repository access: <b>Only select repositories</b> → <code>momentum-analyzer</code> 선택</li>
-        <li>Permissions → Repository permissions:<br><b>Contents: Read and write</b>, <b>Actions: Read and write</b></li>
-        <li><b>Generate token</b> → 표시된 토큰을 복사해 위 칸에 붙여넣기</li>
-      </ol>
-      <p class="caption">이 토큰은 이 저장소 하나만 수정할 수 있습니다. 공용 PC에서는 사용 후 <b>연결 해제</b>하세요.</p>
-    </details>`;
+    </div>`;
   $('#tokSave').onclick = async () => {
     const v = $('#tokIn').value.trim();
     const msg = $('#tokMsg');
@@ -1138,6 +1128,9 @@ async function init() {
   renderAnalysisShell();
   rerenderAll();
   showMain(ui?.main === 'settings' ? 'settings' : 'analysis');
+  const openGh = () => { S.ui.setTab = SETTING_FORMS.length - 1; showMain('settings'); };
+  addEventListener('hashchange', () => { if (location.hash === '#gh') openGh(); else if (S.ui.main === 'settings') renderSettings(); });
+  if (location.hash === '#gh') openGh();
   let rz;
   addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { if (S.ui.main === 'analysis') renderTable(); }, 200); });
 }
