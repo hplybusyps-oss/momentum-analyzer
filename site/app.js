@@ -1062,15 +1062,28 @@ function renderGithub() {
   const has = !!getToken();
   $('#setBody').innerHTML = `
     <h3>GitHub 연결 ${has ? '<span class="ok">● 연결됨</span>' : ''}</h3>
+    <p class="caption" style="max-width:760px">연결하면 종목·그룹·설정 변경이 GitHub 저장소에 저장되어 <b>모든 기기에서 같은 내용</b>이 보이고,
+      새로 추가한 종목의 데이터도 자동으로 수집됩니다. 연결하지 않으면 보기와 계산은 그대로 되지만 변경 사항은 이 브라우저에만 남습니다.</p>
     <div class="form">
-      <label class="full">GitHub 토큰
+      <label class="full">GitHub 토큰 (이 브라우저에만 저장, 다른 곳으로 전송되지 않음 — api.github.com 제외)
         <input type="password" id="tokIn" placeholder="${has ? '저장됨 — 바꾸려면 새 토큰 입력' : 'github_pat_...'}" autocomplete="off"></label>
     </div>
     <div class="row-actions">
       <button class="b primary" id="tokSave">저장 및 확인</button>
       ${has ? '<button class="b danger" id="tokDel">연결 해제</button>' : ''}
       <span class="caption" id="tokMsg"></span>
-    </div>`;
+    </div>
+    <details class="box" ${has ? '' : 'open'}><summary>토큰 만드는 법 (1회, 약 2분)</summary>
+      <ol class="steps">
+        <li>GitHub 로그인 → 오른쪽 위 프로필 → <b>Settings</b> → 왼쪽 맨 아래 <b>Developer settings</b></li>
+        <li><b>Personal access tokens → Fine-grained tokens → Generate new token</b></li>
+        <li>Token name: <code>momentum-analyzer</code>, Expiration: 원하는 기간 (최대 1년)</li>
+        <li>Repository access: <b>Only select repositories</b> → <code>momentum-analyzer</code> 선택</li>
+        <li>Permissions → Repository permissions:<br><b>Contents: Read and write</b>, <b>Actions: Read and write</b></li>
+        <li><b>Generate token</b> → 표시된 토큰을 복사해 위 칸에 붙여넣기</li>
+      </ol>
+      <p class="caption">이 토큰은 이 저장소 하나만 수정할 수 있습니다. 공용 PC에서는 사용 후 <b>연결 해제</b>하세요.</p>
+    </details>`;
   $('#tokSave').onclick = async () => {
     const v = $('#tokIn').value.trim();
     const msg = $('#tokMsg');
