@@ -78,16 +78,26 @@
         "filters": []
       },
       {
-        "name": "새 레시피 3",
+        "name": "C-Core",
         "items": [
           [
-            "avg_momentum",
-            0.5,
+            "rsm",
+            0.35,
             "+"
           ],
           [
-            "rsm",
-            0.5,
+            "wgt_momentum",
+            0.26,
+            "+"
+          ],
+          [
+            "slope",
+            0.26,
+            "+"
+          ],
+          [
+            "volatility",
+            0.13,
             "+"
           ]
         ],
@@ -95,5 +105,5 @@
       }
     ]
   },
-  "updated_at": 1791166476442
+  "updated_at": 1791166516634
 }
