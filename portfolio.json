@@ -3,6 +3,7 @@
     "SPY"
   ],
   "all_tickers": [
+    "TIP",
     "000660",
     "0186L0",
     "069500",
@@ -27,5 +28,5 @@
     ]
   },
   "group_recipes": {},
-  "updated_at": 0
+  "updated_at": 1791165477886
 }
