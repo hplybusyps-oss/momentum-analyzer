@@ -779,9 +779,9 @@ function renderChart() {
     { type: 'bar', x: dates, y: v, name: '거래량', yaxis: 'y2', opacity: 0.75, customdata: tv,
       marker: { color: c.map((x, i) => (x >= o[i] ? up : dn)) },
       hovertemplate: '거래량: %{y:,.0f}<br>거래대금: %{customdata}<extra></extra>' },
-    { type: 'bar', x: dates, y: mom.map(x => x ?? 0), name: '모멘텀', yaxis: 'y3', opacity: 0.75,
+    { type: 'bar', x: dates, y: mom.map(x => x ?? 0), name: '평균 모멘텀', yaxis: 'y3', opacity: 0.75,
       marker: { color: mom.map(x => (x !== null && x >= 0 ? up : dn)) },
-      hovertemplate: '모멘텀: %{y:.1f}%<extra></extra>' },
+      hovertemplate: '평균 모멘텀: %{y:.1f}%<extra></extra>' },
     { x: dates, y: nanNull(rsi), name: `RSI(${T.rsi_period})`, yaxis: 'y4', line: { color: '#e65100', width: 1.5 },
       hovertemplate: `RSI(${T.rsi_period}): %{y:.1f}<extra></extra>` },
     { type: 'bar', x: dates, y: hist, name: 'MACD Hist', yaxis: 'y5', opacity: 0.75,
@@ -799,7 +799,7 @@ function renderChart() {
   const domains = [];
   let top = 1;
   for (const r of ratios) { const hgt = r * avail; domains.push([Math.max(0, top - hgt), top]); top -= hgt + gap; }
-  const labels = [kr ? '가격(₩)' : '가격($)', '거래량', '모멘텀', 'RSI', 'MACD'];
+  const labels = [kr ? '가격(₩)' : '가격($)', '거래량', '평균 모멘텀', 'RSI', 'MACD'];
   const grid = 'rgba(180,180,180,0.3)';
   const spike = { showspikes: true, spikemode: 'across', spikesnap: 'cursor', spikecolor: 'rgba(0,0,0,0.2)', spikethickness: 1 };
 
